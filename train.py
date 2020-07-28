@@ -1,9 +1,5 @@
-import time
-import torch
-import sys
-import numpy as np
-import random
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = '0, 1'
 
 from options.train_options import TrainOptions
 from data.data_loader import CreateDataLoader
@@ -14,7 +10,9 @@ import torch
 
 opt = TrainOptions().parse()  # set CUDA_VISIBLE_DEVICES before import torch
 
-root = "/"
+opt.gpu_ids = [0, 1]
+
+root = "."
 saw_root = root + "/phoenix/S6/zl548/SAW/saw_release/"
 
 IIW_root = root +'/phoenix/S6/zl548/IIW/iiw-dataset/data/'

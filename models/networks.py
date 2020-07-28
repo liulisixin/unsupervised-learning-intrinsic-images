@@ -405,16 +405,20 @@ class JointLoss(nn.Module):
 		ss_loss = ss_loss + 0.25 * self.w_ss   * self.LocalShadSmoothenessLoss(prediction_S_3, targets,3)
 
 		# spatial-temporal densely connected smoothness term
-		rs_loss =  self.w_rs_dense * self.SpatialTemporalBilateralRefSmoothnessLoss(prediction_R, targets, 'R' ,5) 
+		# rs_loss =  self.w_rs_dense * self.SpatialTemporalBilateralRefSmoothnessLoss(prediction_R, targets, 'R' ,5)
 		shading_color_loss = self.w_regularization * self.ShadingPenaltyLoss(prediction_S)
 
 		print("ss loss", ss_loss.data[0])
-		print("rs_loss", rs_loss.data[0])
-		print("rl_loss loss", rl_loss.data[0])
-		print("rc_loss loss", rc_loss.data[0])
-		print("regularization loss ", shading_color_loss.data[0])
+		# print("rs_loss", rs_loss.data[0])
+		# print("rl_loss loss", rl_loss.data[0])
+		# print("rc_loss loss", rc_loss.data[0])
+		# print("regularization loss ", shading_color_loss.data[0])
+		print("rl_loss loss", rl_loss.data)
+		print("rc_loss loss", rc_loss.data)
+		print("regularization loss ", shading_color_loss.data)
 
-		total_loss = ss_loss + rs_loss + rl_loss  + rc_loss + shading_color_loss 
+		# total_loss = ss_loss + rs_loss + rl_loss  + rc_loss + shading_color_loss
+		total_loss = ss_loss + rl_loss + rc_loss + shading_color_loss
 
 		self.total_loss = total_loss
 
@@ -798,7 +802,8 @@ class MultiUnetSkipConnectionBlock(nn.Module):
 										kernel_size=4, stride=2,
 										padding=1), norm_layer(outer_nc, affine=True)]
 			#  for rgb shading 
-			int_conv = [nn.AdaptiveAvgPool2d((1,1)) , nn.ReLU(False),  nn.Conv2d(inner_nc, inner_nc/2, kernel_size=3, stride=1, padding=1), nn.ReLU(False)]
+			int_conv = [nn.AdaptiveAvgPool2d((1,1)) , nn.ReLU(False),
+						nn.Conv2d(inner_nc, inner_nc//2, kernel_size=3, stride=1, padding=1), nn.ReLU(False)]
 			fc = [nn.Linear(256, 3)]
 			self.int_conv = nn.Sequential(* int_conv) 
 			self.fc = nn.Sequential(* fc)
