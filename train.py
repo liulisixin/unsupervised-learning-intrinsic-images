@@ -12,7 +12,7 @@ opt = TrainOptions().parse()  # set CUDA_VISIBLE_DEVICES before import torch
 
 opt.gpu_ids = [0, 1]
 
-root = "."
+root = "../data"
 saw_root = root + "/phoenix/S6/zl548/SAW/saw_release/"
 
 IIW_root = root +'/phoenix/S6/zl548/IIW/iiw-dataset/data/'

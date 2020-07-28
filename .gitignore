@@ -3,4 +3,5 @@ checkpoints/
 iiw-dataset-release-0.zip
 phoenix/
 .idea/
+*.pyc
 
